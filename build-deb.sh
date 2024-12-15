@@ -2,14 +2,17 @@
 kernelUrl=https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.12.5.tar.xz
 # 专门针对 Github Action 制作的，适用于 GXDE 的内核工具工程
 sudo sed -i "/deb-src/s/# //g" /etc/apt/sources.list
+echo "deb-src https://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware" | sudo tee /etc/apt/sources.list.d/debian-bookworm-source.list
 cd $(dirname $0)
 rm -rfv build
 mkdir build
 # 安装依赖
+sudo apt update
 sudo apt install -y aria2
-sudo apt install -y wget xz-utils make gcc flex bison dpkg-dev bc rsync kmod cpio libssl-dev git lsb vim libelf-dev
+sudo apt build-dep -y linux
+sudo apt install -y wget xz-utils make gcc flex bison dpkg-dev bc rsync kmod cpio libssl-dev git vim libelf-dev
 # 解压源码包
-wget $kernelUrl
+aria2c $kernelUrl
 tar -xf $(basename $kernelUrl)
 mv */* . -v
 # 拷贝配置文件
