@@ -6,6 +6,7 @@ echo "deb-src https://deb.debian.org/debian/ bookworm main contrib non-free non-
 cd $(dirname $0)
 rm -rfv build
 mkdir build
+cd build
 # 安装依赖
 sudo apt update
 sudo apt install -y aria2
