@@ -18,7 +18,7 @@ Content-Transfer-Encoding: 8bit
   gcc-${host_gnu} <!pkg.${sourcename}.nokernelheaders>,
   kmod, libelf-dev:native,
 - libssl-dev:native, libssl-dev <!pkg.${sourcename}.nokernelheaders>,
-+ libssl-dev:native:native, 
++ libssl-dev:native, 
   rsync
  Homepage: https://www.kernel.org/
  
