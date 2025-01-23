@@ -34,7 +34,7 @@ case $1 in
         cp -v ../config-loong64-4k-pagesize .config
     ;;
     "riscv64" )
-        cp -v arch/riscv/configs/nommu_virt_defconfig .config
+        cp -v ../config-riscv64-gxde .config
     ;;
     "mips64el" )
         cp -v ../config-mips64el-gxde .config
