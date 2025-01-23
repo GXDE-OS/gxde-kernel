@@ -11,7 +11,7 @@ cd build
 sudo apt update
 sudo apt install -y aria2
 sudo apt build-dep -y linux
-sudo apt install gcc-riscv64-linux-gnu gcc-mips-linux-gnu gcc-aarch64-linux-gnu -y
+sudo apt install gcc-riscv64-linux-gnu gcc-mips-linux-gnu gcc-aarch64-linux-gnu gcc-mips64el-linux-gnuabi64 -y
 sudo apt install gcc-loongarch64-linux-gnu -y
 sudo apt install -y libssl-dev wget xz-utils make gcc flex bison dpkg-dev bc rsync kmod cpio libssl-dev git vim libelf-dev zstd
 sudo apt install -y wget xz-utils make gcc flex bison dpkg-dev bc rsync kmod cpio libssl-dev git lsb vim libelf-dev
@@ -21,6 +21,9 @@ tar -xf $(basename $kernelUrl)
 mv */* . -v
 # 拷贝配置文件
 case $1 in
+    "i386")
+        cp -v ../config-i386-gxde .config
+    ;;
     "amd64")
         cp -v ../config-amd64-gxde .config
     ;;
@@ -34,7 +37,7 @@ case $1 in
         cp -v arch/riscv/configs/nommu_virt_defconfig .config
     ;;
     "mips64el" )
-        cp -v arch/mips/configs/loongson3_defconfig .config
+        cp -v ../config-mips64el-gxde .config
     ;;
     *)
         cp -v ../config-amd64-gxde .config
@@ -62,6 +65,9 @@ scripts/config --set-val  DEBUG_INFO_NONE       y
 CPU_CORES=$(($(grep -c processor < /proc/cpuinfo)*2))
 sudo apt install libssl-dev -y
 case $1 in
+    "i386")
+        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make bindeb-pkg -j"$CPU_CORES"
+    ;;
     "amd64")
         sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make bindeb-pkg -j"$CPU_CORES"
     ;;
@@ -75,7 +81,7 @@ case $1 in
         sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- bindeb-pkg -j"$CPU_CORES"
     ;;
     "mips64el" )
-        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=mips CROSS_COMPILE=mips-linux-gnu- bindeb-pkg -j"$CPU_CORES"
+        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64- bindeb-pkg -j"$CPU_CORES"
     ;;
     *)
         sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=$1 CROSS_COMPILE=$1-linux-gnu- bindeb-pkg -j"$CPU_CORES"
