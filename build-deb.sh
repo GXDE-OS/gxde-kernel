@@ -46,7 +46,6 @@ esac
 
 # 合并补丁
 git apply ../patch/*
-ls ../patch/*
 
 #
 # disable DEBUG_INFO to speedup build
