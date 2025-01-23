@@ -10,14 +10,17 @@ cd build
 # 安装依赖
 sudo apt update
 sudo apt install -y aria2
+sudo apt install deepin-desktop-base live-task-standard -y
 sudo apt build-dep -y linux
-sudo apt install -y wget xz-utils make gcc flex bison dpkg-dev bc rsync kmod cpio libssl-dev git vim libelf-dev zstd
+sudo apt install gcc-riscv64-linux-gnu gcc-mips-linux-gnu gcc-aarch64-linux-gnu -y
+sudo apt install gcc-loongarch64-linux-gnu -y
+sudo apt install -y libssl-dev wget xz-utils make gcc flex bison dpkg-dev bc rsync kmod cpio libssl-dev git vim libelf-dev zstd
+sudo apt install -y wget xz-utils make gcc flex bison dpkg-dev bc rsync kmod cpio libssl-dev git lsb vim libelf-dev
 # 解压源码包
 aria2c $kernelUrl
 tar -xf $(basename $kernelUrl)
 mv */* . -v
 # 拷贝配置文件
-cp ../gxde-amd64-config .config
 case $1 in
     "amd64")
         cp ../config-amd64-gxde .config
@@ -59,24 +62,25 @@ scripts/config --set-val  DEBUG_INFO_DWARF5     n
 scripts/config --set-val  DEBUG_INFO_NONE       y
 
 CPU_CORES=$(($(grep -c processor < /proc/cpuinfo)*2))
+sudo apt install libssl-dev -y
 case $1 in
     "amd64")
         sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make bindeb-pkg -j"$CPU_CORES"
     ;;
     "arm64")
-        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make bindeb-pkg ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j"$CPU_CORES"
+        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-  bindeb-pkg -j"$CPU_CORES"
     ;;
-    "loongarch")
-        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make bindeb-pkg ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- -j"$CPU_CORES"
+    "loong64")
+        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- bindeb-pkg -j"$CPU_CORES"
     ;;
     "riscv64" )
-        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make bindeb-pkg ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- -j"$CPU_CORES"
+        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- bindeb-pkg -j"$CPU_CORES"
     ;;
     "mips64el" )
-        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make bindeb-pkg ARCH=mips CROSS_COMPILE=mips-linux-gnu- -j"$CPU_CORES"
+        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=mips CROSS_COMPILE=mips-linux-gnu- bindeb-pkg -j"$CPU_CORES"
     ;;
     *)
-        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make bindeb-pkg ARCH=$1 CROSS_COMPILE=$1-linux-gnu- -j"$CPU_CORES"
+        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=$1 CROSS_COMPILE=$1-linux-gnu- bindeb-pkg -j"$CPU_CORES"
     ;;
 esac
 
