@@ -10,7 +10,6 @@ cd build
 # 安装依赖
 sudo apt update
 sudo apt install -y aria2
-sudo apt install deepin-desktop-base live-task-standard -y
 sudo apt build-dep -y linux
 sudo apt install gcc-riscv64-linux-gnu gcc-mips-linux-gnu gcc-aarch64-linux-gnu -y
 sudo apt install gcc-loongarch64-linux-gnu -y
@@ -43,9 +42,7 @@ case $1 in
 esac
 
 # 合并补丁
-if [[ -d ../patch ]]; then
-    git apply ../patch/*
-fi
+git apply ../patch/*
 
 #
 # disable DEBUG_INFO to speedup build
