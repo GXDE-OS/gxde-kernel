@@ -22,27 +22,28 @@ mv */* . -v
 # 拷贝配置文件
 case $1 in
     "amd64")
-        cp ../config-amd64-gxde .config
+        cp -v ../config-amd64-gxde .config
     ;;
     "arm64")
-        cp ../config-6.12.5-gxde-hwe-hisilicon .config
+        cp -v ../config-6.12.5-gxde-hwe-hisilicon .config
     ;;
     "loong64" )
-        cp ../config-6.12.9-loong64 .config
+        cp -v ../config-loong64-4k-pagesize .config
     ;;
     "riscv64" )
-        cp arch/riscv/configs/nommu_virt_defconfig .config
+        cp -v arch/riscv/configs/nommu_virt_defconfig .config
     ;;
     "mips64el" )
-        cp arch/mips/configs/loongson3_defconfig .config
+        cp -v arch/mips/configs/loongson3_defconfig .config
     ;;
     *)
-        cp ../config-amd64-gxde .config
+        cp -v ../config-amd64-gxde .config
     ;;
 esac
 
 # 合并补丁
 git apply ../patch/*
+ls ../patch/*
 
 #
 # disable DEBUG_INFO to speedup build

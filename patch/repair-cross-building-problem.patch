@@ -11,8 +11,6 @@ Content-Transfer-Encoding: 8bit
  scripts/package/mkdebian | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index fc3b7fa70..3a48950e2 100755
 --- a/scripts/package/mkdebian
 +++ b/scripts/package/mkdebian
 @@ -201,7 +201,7 @@ Build-Depends: debhelper-compat (= 12)
@@ -24,6 +22,5 @@ index fc3b7fa70..3a48950e2 100755
   rsync
  Homepage: https://www.kernel.org/
  
--- 
-2.39.5
+
 
