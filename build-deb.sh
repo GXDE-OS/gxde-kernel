@@ -86,5 +86,5 @@ case $1 in
         sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=$1 CROSS_COMPILE=$1-linux-gnu- bindeb-pkg -j"$CPU_CORES"
     ;;
 esac
-
+sudo rm ../*linux-libc-dev*.deb -rfv
 sudo mv ../*.deb ../.. -v
