@@ -63,28 +63,32 @@ scripts/config --disable DEBUG_INFO
 
 CPU_CORES=$(($(grep -c processor < /proc/cpuinfo)*2))
 sudo apt install libssl-dev -y
-case $1 in
-    "i386")
-        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make bindeb-pkg -j"$CPU_CORES"
-    ;;
-    "amd64")
-        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make bindeb-pkg -j"$CPU_CORES"
-    ;;
-    "arm64")
-        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-  bindeb-pkg -j"$CPU_CORES"
-    ;;
-    "loong64")
-        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- bindeb-pkg -j"$CPU_CORES"
-    ;;
-    "riscv64" )
-        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- bindeb-pkg -j"$CPU_CORES"
-    ;;
-    "mips64el" )
-        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64- bindeb-pkg -j"$CPU_CORES"
-    ;;
-    *)
-        sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=$1 CROSS_COMPILE=$1-linux-gnu- bindeb-pkg -j"$CPU_CORES"
-    ;;
-esac
+if [[ $1 == $(dpkg --print-architecture) ]]; then
+    sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make bindeb-pkg -j"$CPU_CORES"
+else
+    case $1 in
+        "i386")
+            sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make bindeb-pkg -j"$CPU_CORES"
+        ;;
+        "amd64")
+            sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make bindeb-pkg -j"$CPU_CORES"
+        ;;
+        "arm64")
+            sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-  bindeb-pkg -j"$CPU_CORES"
+        ;;
+        "loong64")
+            sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- bindeb-pkg -j"$CPU_CORES"
+        ;;
+        "riscv64" )
+            sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- bindeb-pkg -j"$CPU_CORES"
+        ;;
+        "mips64el" )
+            sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64- bindeb-pkg -j"$CPU_CORES"
+        ;;
+        *)
+            sudo env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make ARCH=$1 CROSS_COMPILE=$1-linux-gnu- bindeb-pkg -j"$CPU_CORES"
+        ;;
+    esac
+fi
 sudo rm ../*linux-libc-dev*.deb -rfv
 sudo mv ../*.deb ../.. -v
